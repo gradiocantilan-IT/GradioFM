@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmileFlix — Mobile Only</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,sans-serif;background:#071019;color:#eee}
+
+    /* Desktop block overlay */
+    .desktop-block{display:none}
+    @media(min-width:901px){
+      body > *{display:none!important}
+      .desktop-block{
+        display:flex;
+        position:fixed;
+        inset:0;
+        background:#071019;
+        color:#fff;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        padding:20px;
+        z-index:99999;
+        flex-direction:column;
+      }
+      .desktop-block h1{font-size:24px;margin-bottom:12px}
+      .desktop-block p{opacity:0.85;max-width:400px;margin-bottom:16px}
+      .desktop-block .hint{padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.08);font-size:14px}
+    }
+
+    /* Navigation (mobile simple) */
+    .nav{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#000a;position:sticky;top:0;z-index:10}
+    .brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;color:#fff}
+    .brand .logo{width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#0ea5a4,#0369a1)}
+    .nav .links{display:flex;gap:10px;align-items:center}
+    .nav a{color:#ddd;text-decoration:none;font-size:13px}
+
+    /* Player */
+    .player-wrap{margin:12px auto;padding:0 10px}
+    .player{background:#000;border-radius:10px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.6)}
+    video{width:100%;height:auto;max-height:42vh;background:#000;border-bottom:1px solid #111}
+    .player-controls{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#000b;color:#fff;font-size:14px}
+    .meta{display:flex;gap:10px;align-items:center;min-width:0}
+    .meta .title{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .pill{padding:3px 8px;background:#ff2d55;color:#fff;border-radius:12px;font-weight:700;font-size:11px}
+    .muted{opacity:0.75;color:#bfc7cf;font-size:12px}
+    .actions button{background:none;border:none;color:#fff;font-size:18px;cursor:pointer}
+
+    /* Slider */
+    .section{margin:18px auto;padding:0 12px}
+    .section h2{font-size:16px;margin-bottom:8px;color:#fff}
+    .slider-track{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+    .movie{min-width:140px;flex:0 0 auto;border-radius:8px;overflow:hidden;background:#111;border:1px solid rgba(255,255,255,0.05);cursor:pointer}
+    .poster{height:180px;background-size:cover;background-position:center}
+    .movie-info{padding:6px}
+    .movie-info h3{font-size:13px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .movie-info p{font-size:11px;color:#bfc7cf}
+  </style>
+</head>
+<body>
+  <!-- Desktop block message -->
+  <div class="desktop-block">
+    <h1>Mobile Only</h1>
+    <p>SmileFlix is designed for mobile devices. Please open this page on your phone or resize your browser to a smaller width.</p>
+    <div class="hint">Tip: Use your phone for the best viewing experience 🎬</div>
+  </div>
+
+  <!-- Mobile site -->
+  <header class="nav">
+    <div class="brand">
+      <div class="logo"></div>
+      SmileFlix Streaming
+    </div>
+    <nav class="links">
+      <a href="home.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">SignUp</a>
+    </nav>
+  </header>
+
+  <!-- Local Player FIRST -->
+  <div class="player-wrap">
+    <div class="player">
+      <video id="mainPlayer" controls preload="metadata" poster="">
+        <source src="videos/movie1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="player-controls">
+        <div class="meta">
+          <div class="pill">LIVE</div>
+          <div>
+            <div class="title" id="playerTitle">Select a movie</div>
+            <div class="muted" id="playerSub">DJ Blayne Duero Castillo</div>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="muteBtn">🔈</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slider BELOW -->
+  <main>
+    <section class="section">
+      <h2>Featured Movies</h2>
+      <div class="slider-track" id="sliderTrack">
+        <div class="movie" data-title="Ocean Escape" data-desc="Action • 2024" data-src="list/Arm.mp4" data-poster="posters/ocean.jpg">
+          <div class="poster" style="background-image:url('assets/images/Arm.jpg')"></div>
+          <div class="movie-info"><h3>Ocean Escape</h3><p>Action • 2024</p></div>
+        </div>
+        <div class="movie" data-title="Midnight Radio" data-desc="Drama • 2023" data-src="list/Private.mp4" data-poster="posters/midnight.jpg">
+          <div class="poster" style="background-image:url('assets/images/Behind.jpg')"></div>
+          <div class="movie-info"><h3>Midnight Radio</h3><p>Drama • 2023</p></div>
+        </div>
+        <div class="movie" data-title="Neon Nights" data-desc="Sci-fi • 2025" data-src="list/Behind.mp4" data-poster="posters/neon.jpg">
+          <div class="poster" style="background-image:url('hassets/images/Private.jpg')"></div>
+          <div class="movie-info"><h3>Neon Nights</h3><p>Sci-fi • 2025</p></div>
+        </div>
+        <div class="movie" data-title="Coastline" data-desc="Romance • 2022" data-src="videos/movie4.mp4" data-poster="posters/coast.jpg">
+          <div class="poster" style="background-image:url('https://picsum.photos/seed/4/400/600')"></div>
+          <div class="movie-info"><h3>Coastline</h3><p>Romance • 2022</p></div>
+        </div>
+        <div class="movie" data-title="Sky Chaser" data-desc="Adventure • 2021" data-src="videos/movie5.mp4" data-poster="posters/sky.jpg">
+          <div class="poster" style="background-image:url('https://picsum.photos/seed/5/400/600')"></div>
+          <div class="movie-info"><h3>Sky Chaser</h3><p>Adventure • 2021</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Now Playing & Schedule</h2>
+      <p class="muted">Tap a card above to load it into the player. Replace the sample <code>videos/*.mp4</code> and posters with your own media.</p>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      const movies = document.querySelectorAll('.movie');
+      const player = document.getElementById('mainPlayer');
+      const title = document.getElementById('playerTitle');
+      const sub = document.getElementById('playerSub');
+      const muteBtn = document.getElementById('muteBtn');
+
+      function loadMovie(el){
+        const src = el.dataset.src;
+        const t = el.dataset.title;
+        const d = el.dataset.desc;
+        const poster = el.dataset.poster;
+        while(player.firstChild) player.removeChild(player.firstChild);
+        const s = document.createElement('source');
+        s.src = src; s.type = 'video/mp4';
+        player.appendChild(s);
+        if(poster) player.setAttribute('poster', poster);
+        player.load();
+        player.play().catch(()=>{});
+        title.textContent = t;
+        sub.textContent = d + ' — DJ Blayne Duero Castillo';
+      }
+
+      movies.forEach(m => m.addEventListener('click', ()=> loadMovie(m)));
+
+      muteBtn.addEventListener('click', ()=>{
+        player.muted = !player.muted;
+        muteBtn.textContent = player.muted ? '🔇' : '🔈';
+      });
+    })();
+  </script>
+</body>
+</html>
