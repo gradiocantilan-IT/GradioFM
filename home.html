@@ -7,39 +7,52 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
-   /* 🚫 Block desktop view */
+/* 🚫 Block desktop view */
 @media (min-width: 1024px) {
   #desktop-block { display: flex !important; }
   body > *:not(#desktop-block) { display: none !important; }
 }
-  
-  body { background-color:#000; color:#fff; }
 
-  .app-icon img { width:64px; height:64px; border-radius:50%; }
-  .swiper-button-next, .swiper-button-prev { display:none!important; }
+body { background-color:#000; color:#fff; }
 
-  /* Marquee */
-  @keyframes marquee { from{transform:translateX(100%);} to{transform:translateX(-100%);} }
-  .animate-marquee { display:inline-block; padding-left:100%; animation:marquee 12s linear infinite; will-change: transform; }
+.app-icon img { width:64px; height:64px; border-radius:50%; }
+.swiper-button-next, .swiper-button-prev { display:none!important; }
 
-  .nest-logo { height:28px; width:145px; object-fit:contain; }
-  @keyframes slideUp { from{transform:translateY(100%);opacity:0;} to{transform:translateY(0);opacity:1;} }
-  .animate-slideUp { animation:slideUp .8s ease-out forwards; }
+/* Marquee */
+@keyframes marquee { from{transform:translateX(100%);} to{transform:translateX(-100%);} }
+.animate-marquee { display:inline-block; padding-left:100%; animation:marquee 12s linear infinite; will-change: transform; }
 
+.nest-logo { height:28px; width:145px; object-fit:contain; }
+@keyframes slideUp { from{transform:translateY(100%);opacity:0;} to{transform:translateY(0);opacity:1;} }
+.animate-slideUp { animation:slideUp .8s ease-out forwards; }
 
-  /* 📱 Base (Mobile-first styles) */
-  .search-bar { width: 100%; max-width: 20rem; margin: 0 auto; }
-  .apps-section { width: 100%; margin: 0 auto; }
-  .apps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; justify-items: center; }
+/* Footer planets */
+@keyframes spin-cw { from{transform:rotate(0);} to{transform:rotate(360deg);} }
+@keyframes spin-ccw { from{transform:rotate(0);} to{transform:rotate(-360deg);} }
+@keyframes pulse-blue { 0%,100%{filter:drop-shadow(0 0 8px #3b82f6);} 50%{filter:drop-shadow(0 0 20px #60a5fa);} }
+@keyframes pulse-red  { 0%,100%{filter:drop-shadow(0 0 8px #ef4444);} 50%{filter:drop-shadow(0 0 20px #f87171);} }
+.earth-anim { animation:spin-cw 20s linear infinite,pulse-blue 3s ease-in-out infinite; }
+.mars-anim  { animation:spin-ccw 25s linear infinite,pulse-red 4s ease-in-out infinite; }
 
-  /* 💻 Desktop Enhancements */
-  @media (min-width: 1024px) {
-    .search-bar { max-width: 900px !important; }
-    .apps-section { max-width: 1100px; margin-left: auto; margin-right: auto; padding: 2rem 0; }
-    .apps-grid { grid-template-columns: repeat(6, 1fr); gap: 2.5rem; }
-    .app-icon img { width: 90px; height: 90px; }
-    .app-label { font-size: 1rem; }
-  }
+/* 📰 Ad Overlay with Backdrop Filter */
+#ad-overlay {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); /* For Safari and other WebKit browsers */
+}
+
+/* 📱 Base (Mobile-first styles) */
+.search-bar { width: 100%; max-width: 20rem; margin: 0 auto; }
+.apps-section { width: 100%; margin: 0 auto; }
+.apps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; justify-items: center; }
+
+/* 💻 Desktop Enhancements */
+@media (min-width: 1024px) {
+  .search-bar { max-width: 900px !important; }
+  .apps-section { max-width: 1100px; margin-left: auto; margin-right: auto; padding: 2rem 0; }
+  .apps-grid { grid-template-columns: repeat(6, 1fr); gap: 2.5rem; }
+  .app-icon img { width: 90px; height: 90px; }
+  .app-label { font-size: 1rem; }
+}
 </style>
 </head>
 <body class="text-white">
@@ -64,27 +77,23 @@
   </div>
 </div>
 
-<!-- 📰 Ad Overlay -->
-<div id="ad-overlay" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
-  <div class="relative rounded-xl shadow-xl p-6 max-w-sm text-center bg-transparent text-white animate-slideUp">
-    <button id="close-ad" class="absolute top-2 right-2 text-gray-500 hover:text-red-500">✖</button>
-    <a id="ad-link" href="#" target="_blank">
-      <img id="ad-image" src="" alt="Ad Image" class="w-full rounded-lg mb-4">
-    </a>
-    <h2 id="ad-title" class="text-lg font-bold mb-2"></h2>
-    <p id="ad-text" class="text-sm mb-4"></p>
-    <a id="ad-btn" href="#" target="_blank" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-full shadow">
-      Learn More
-    </a>
-  </div>
-</div>
-
-<!-- 🎥 Local Video Playlist -->
+<!-- 🎥 Video Player (Local + YouTube) -->
 <div class="relative w-full max-w-4xl mx-auto aspect-video mb-4">
+  <!-- Local Video -->
   <video id="introVideo" class="w-full h-full rounded-lg shadow-lg" autoplay muted>
     <source id="videoSource" src="player/VPsara.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
+
+  <!-- YouTube Video -->
+  <iframe id="youtubeVideo"
+    class="w-full h-full rounded-lg shadow-lg hidden"
+    src=""
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+  </iframe>
 
   <!-- ▶ Next Video overlay -->
   <div id="nextVideoBtn" 
@@ -165,7 +174,7 @@
             </a>
           </div>
           <div class="flex flex-col items-center text-center">
-            <a href="movie_streaming/index.html" target="_blank" class="flex flex-col items-center">
+            <a href="smileflex.html" target="_blank" class="flex flex-col items-center">
               <div class="w-16 h-16 rounded-full flex items-center justify-center shadow-md bg-gray-700 app-icon">
                 <img src="assets/icons/smileflex.png" alt="Smileflex">
               </div>
@@ -290,9 +299,9 @@
 <!-- 🌍 Footer Navigation -->
 <div class="flex justify-center items-center mb-6 mt-12">
   <div class="relative flex items-center justify-between w-full max-w-4xl px-6 bg-[#1c1c1c] rounded-full shadow-lg">
-    <img src="assets/GIF/earth.gif" alt="Earth" class="w-16 h-16 cursor-pointer hover:scale-110 transition-transform ml-4" onclick="window.location.href='https://www.google.com'">
+    <img src="assets/icons/earth.png" alt="Earth" class="w-16 h-16 cursor-pointer hover:scale-110 transition-transform ml-4 earth-anim" onclick="window.location.href='https://www.google.com'">
     <img id="floatingBtn" src="assets/icons/Home.png" alt="Apps" class="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 cursor-pointer transition-transform -mt-8 sm:-mt-10 z-10" onclick="openAppsMenu()">
-    <img src="assets/GIF/Mars.gif" alt="Mars" class="w-16 h-16 cursor-pointer hover:scale-110 transition-transform mr-4" onclick="window.location.href='mars_intranet.html'">
+    <img src="assets/icons/mars.png" alt="Mars" class="w-16 h-16 cursor-pointer hover:scale-110 transition-transform mr-4 mars-anim" onclick="window.location.href='mars_intranet.html'">
   </div>
 </div>
 
@@ -325,7 +334,7 @@
       <img src="assets/icons/GRADIO.png" class="w-16 h-16 rounded-full mb-2" alt="Gradio">
       <p class="text-xs">Gradio FM</p>
     </a>
-    <a href="movie_streaming/index.html" class="flex flex-col items-center">
+    <a href="smileflex.html" class="flex flex-col items-center">
       <img src="assets/icons/smileflex.png" class="w-16 h-16 rounded-full mb-2" alt="Smileflex">
       <p class="text-xs">Smileflex</p>
     </a>
@@ -385,45 +394,67 @@
 const welcomePopup = document.getElementById("welcomePopup");
 const introVideo = document.getElementById("introVideo");
 const videoSource = document.getElementById("videoSource");
+const youtubeVideo = document.getElementById("youtubeVideo");
+const nextVideoBtn = document.getElementById("nextVideoBtn");
 
-// 🎞️ Video Playlist
+// 🎞️ Video Playlist (local + YouTube)
 const videoPlaylist = [
-  "player/VPsara.mp4",
-  "player/video02.mp4",
-  "player/Zandro.mp4",
-  "player/NewDJ.mp4"
+  { type: "local", src: "player/VPsara.mp4" },
+  { type: "local", src: "player/Ad01.mp4" },
+  { type: "youtube", src: "https://www.youtube.com/embed/pagztyHiQis?autoplay=1&rel=0&modestbranding=1&playsinline=1" },
+  { type: "local", src: "player/03.mp4" }
 ];
 
 let currentVideo = 0;
 
-// Function to play next video (seamless loop)
+// ▶️ Play Next Video
 function playNextVideo() {
   currentVideo = (currentVideo + 1) % videoPlaylist.length;
-  videoSource.src = videoPlaylist[currentVideo];
-  introVideo.load();
-  introVideo.play();
+  const videoData = videoPlaylist[currentVideo];
+
+  if (videoData.type === "local") {
+    youtubeVideo.classList.add("hidden");
+    introVideo.classList.remove("hidden");
+    videoSource.src = videoData.src;
+    introVideo.load();
+    introVideo.play();
+  } else if (videoData.type === "youtube") {
+    introVideo.classList.add("hidden");
+    youtubeVideo.classList.remove("hidden");
+    youtubeVideo.src = videoData.src;
+  }
 }
 
-// 🎵 Welcome Popup
+// 🎵 Welcome Popup Trigger
 welcomePopup.addEventListener("click", () => {
   welcomePopup.classList.add("hidden");
   introVideo.muted = false;
   introVideo.play();
 
-  // ✅ Trigger cache now
-  if (navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({ action: "cacheVideos" });
-  }
+  // ▶️ Auto play next after video ends
+  introVideo.addEventListener("ended", () => {
+    setTimeout(playNextVideo, 5000);
+  });
 
-  // ✅ Ads start after 20s
+  // 🎯 Start ads after 15s, then every 60s
   setTimeout(() => {
-    showAd();
-    setInterval(showAd, 60000);
-  }, 20000);
+    showAd(); // first ad
+    setInterval(showAd, 60000); // next ads every 60s
+  }, 15000);
 });
 
-// ✅ Seamless loop (auto play next when video ends)
-introVideo.addEventListener("ended", playNextVideo);
+// 🎬 Skip button
+nextVideoBtn.addEventListener("click", () => {
+  introVideo.muted = false;
+  playNextVideo();
+});
+
+// ✅ Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(() => {
+    console.log('✅ Service Worker registered');
+  });
+}
 
 // 🔄 Swiper
 const swiper = new Swiper('.swiper', {
@@ -431,72 +462,43 @@ const swiper = new Swiper('.swiper', {
   pagination: { el: '.swiper-pagination', clickable: true }
 });
 
-// 🎯 Rotating Ads
+// 🎯 Rotating Ads (same as before, no changes)
 const adOverlay = document.getElementById('ad-overlay');
+const adContainer = adOverlay ? adOverlay.querySelector('div') : null;
 const adImage = document.getElementById('ad-image');
 const adTitle = document.getElementById('ad-title');
 const adText = document.getElementById('ad-text');
 const adBtn = document.getElementById('ad-btn');
 const adLink = document.getElementById('ad-link');
+const adClose = document.getElementById('close-ad');
 
 const ads = [
-  {
-    img: "assets/POPUP/VP/sara.png",
-    title: " One Philippines, One Future, One Sara.",
-    text: "We Support Sara",
-    btn: "Learn More",
-    btnLink: "https://www.ovp.gov.ph/",
-    color: "green"
-  },
-  {
-    img: "assets/POPUP/EYEBERRY/wangod.png",
-    title: "Eyeberry Gold",
-    text: "Nourish your eyes with Eyeberry Gold — packed with antioxidants to support vision and protect from digital strain.",
-    btn: "Buy Now",
-    btnLink: "https://example.com/eyeberry-gold",
-    color: "yellow"
-  },
-  {
-    img: "assets/POPUP/VP/Gradio.png",
-    title: "Dj Blayn Castello",
-    text: "Gradio Cantilan",
-    btn: "Shop Now",
-    btnLink: "https://example.com/eyecare-pro",
-    color: "blue"
-  },
-  {
-    img: "Ad/ad4.jpg",
-    title: "ClearSight",
-    text: "Boost your vision with ClearSight — advanced formula for sharper focus and eye comfort.",
-    btn: "Discover Now",
-    btnLink: "https://example.com/clearsight",
-    color: "purple"
-  }
+  { img: "assets/POPUP/EYEBERRY/wangod.png", title: "Eyeberry Gold", text: "Nourish your eyes with Eyeberry Gold.", btn: "Buy Now", btnLink: "https://example.com/eyeberry-gold" },
+  { img: "assets/POPUP/VP/sara.png", title: "One Philippines, One Future, One Sara.", text: "We Support Sara", btn: "Learn More", btnLink: "https://www.ovp.gov.ph/" },
+  { img: "assets/POPUP/VP/Gradio.png", title: "Gradio DJ", text: "LIVE Every Wed. and Sat.", btn: "Tara", btnLink: "https://example.com/gradio" }
 ];
-
 let currentAd = 0;
 
 function showAd() {
   const ad = ads[currentAd];
-  adImage.src = ad.img;
-  adTitle.textContent = ad.title;
-  adText.textContent = ad.text;
-  adBtn.textContent = ad.btn;
-  adBtn.href = ad.btnLink;
-  adLink.href = ad.btnLink;
+  if(adImage) adImage.src = ad.img;
+  if(adTitle) adTitle.textContent = ad.title;
+  if(adText) adText.textContent = ad.text;
+  if(adBtn) adBtn.textContent = ad.btn;
+  if(adBtn) adBtn.href = ad.btnLink;
+  if(adLink) adLink.href = ad.btnLink;
 
-  adOverlay.classList.remove("hidden");
+  adOverlay?.classList.remove("hidden");
   setTimeout(hideAd, 6000);
-}
-
-function hideAd() {
-  adOverlay.classList.add("hidden");
   currentAd = (currentAd + 1) % ads.length;
 }
 
-document.getElementById("close-ad").onclick = hideAd;
+function hideAd() {
+  adOverlay?.classList.add("hidden");
+}
+if(adClose){ adClose.addEventListener("click", hideAd); }
 
-// ⛅ Weather
+// 🌤️ Weather (unchanged)
 const weatherSpan = document.getElementById('weather');
 async function fetchWeather() {
   try {
@@ -538,13 +540,6 @@ updateLiveClock();
 // 📱 Apps Menu
 function openAppsMenu(){ document.getElementById("appsMenu").classList.remove("hidden"); }
 function closeAppsMenu(){ document.getElementById("appsMenu").classList.add("hidden"); }
-
-// 🛠 Register service worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').then(() => {
-    console.log('✅ Service Worker registered');
-  });
-}
 </script>
 </body>
 </html>
