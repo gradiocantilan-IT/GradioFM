@@ -462,7 +462,7 @@ const swiper = new Swiper('.swiper', {
   pagination: { el: '.swiper-pagination', clickable: true }
 });
 
-// 🎯 Rotating Ads (same as before, no changes)
+// 🎯 Rotating Ads (looping every 60s)
 const adOverlay = document.getElementById('ad-overlay');
 const adContainer = adOverlay ? adOverlay.querySelector('div') : null;
 const adImage = document.getElementById('ad-image');
@@ -481,6 +481,7 @@ let currentAd = 0;
 
 function showAd() {
   const ad = ads[currentAd];
+
   if(adImage) adImage.src = ad.img;
   if(adTitle) adTitle.textContent = ad.title;
   if(adText) adText.textContent = ad.text;
@@ -489,14 +490,27 @@ function showAd() {
   if(adLink) adLink.href = ad.btnLink;
 
   adOverlay?.classList.remove("hidden");
+
+  // ⏱ Hide after 6s
   setTimeout(hideAd, 6000);
+
+  // 🔄 Move to next ad
   currentAd = (currentAd + 1) % ads.length;
 }
 
 function hideAd() {
   adOverlay?.classList.add("hidden");
 }
+
+// ❌ Close button
 if(adClose){ adClose.addEventListener("click", hideAd); }
+
+// 🕒 Start ads loop: first show after 15s, then every 60s
+setTimeout(() => {
+  showAd(); 
+  setInterval(showAd, 60000); // loop ads every 60s
+}, 15000);
+
 
 // 🌤️ Weather (unchanged)
 const weatherSpan = document.getElementById('weather');
